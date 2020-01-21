@@ -1,0 +1,126 @@
+class Math{
+    
+    static Array twoToThe;
+
+    function void init()
+    {
+        let twoToThe = Array.new(16);
+        let twoToThe[0] = 1;
+        let twoToThe[1] = 2;
+        let twoToThe[2] = 4;
+        let twoToThe[3] = 8;
+        let twoToThe[4] = 16;
+        let twoToThe[5] = 32;
+        let twoToThe[6] = 64;
+        let twoToThe[7] = 128;
+        let twoToThe[8] = 256;
+        let twoToThe[9] = 512;
+        let twoToThe[10] = 1024;
+        let twoToThe[11] = 2048;
+        let twoToThe[12] = 4096;
+        let twoToThe[13] = 8192;
+        let twoToThe[14] = 16384;
+        let twoToThe[15] = 32768;
+    }
+
+    function int multiply(int x, int y)
+    {
+        var int sum;
+        var int i;
+        var int shifted_x;
+        // var int n;
+
+        let shifted_x = x;
+        let sum = 0;
+        let i = 0;
+        while(i < 16)
+        {
+            if(is_nth_bit(y) == 1)
+            {
+                sum = sum + shifted_x;
+            }
+            shifted_x = shifted_x + shifted_x;
+        }
+        return sum;
+    }
+
+    function int is_nth_bit(int a, int n)
+    {
+        var result;
+        let result = a & twoToThe[n];
+        if(result > 0)
+        {
+            let result = 1;
+        }
+        return result;
+    }
+
+    function int divide(int x, int y)
+    {
+        var int q;
+
+        if (y > x)
+        {
+            return 0;
+        }
+        let q = divide(x, y+y);
+        if (x)
+    }
+
+    function int sqrt(int a)
+    {
+        var int low;
+        var int high;
+        var int med;
+
+        let low = 0;
+        let high = 181;
+
+        while (low < high)
+        {
+            let med = (low + high) / 2;
+            if( (med*med) > x)
+            {
+                let high = med - 1;
+            }   
+            else
+            {
+                let low = med;
+            }
+        }
+        return low;
+    }
+
+    function int abs(int a)
+    {
+        if (a<0)
+        {
+            let a = -a;
+        }
+        return a;
+    }
+
+    function int min(int a, int b)
+    {
+        if (a < b)
+        {
+            return a;
+        }
+        else
+        {
+            return b;
+        }
+    }
+    
+    function int max(int a, int b)
+    {
+        if (a < b)
+        {
+            return b;
+        }
+        else
+        {
+            return a;
+        }
+    }
+}
