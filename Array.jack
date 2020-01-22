@@ -12,21 +12,19 @@
  * data types.
  */
 class Array {
-    field int address;
 
     /** Constructs a new Array of the given size. */
     function Array new(int size)
     {
+        var int address;
         let address = Memory.alloc(size);
-        // do Memory.alloc(size);
-        return this;
+        return address;
     }
 
     /** Disposes this array. */
     method void dispose()
     {
         do Memory.deAlloc(address);
-        // do Memory.deAlloc(this);
         return;
     }
 }
