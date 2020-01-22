@@ -94,13 +94,13 @@ class String {
         let c = radix + 48;
         if(val < 10)
         {
-            do String.appendChar(c);
+            do appendChar(c);
             return;
         }
         else
         {
-            do String.setInt(temp);
-            do String.appendChar(c);
+            do setInt(temp);
+            do appendChar(c);
             return;
         }
     }

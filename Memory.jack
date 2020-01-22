@@ -11,7 +11,7 @@
 class Memory {
     static Array ram;
     static Array heap;
-    field int freeList;
+    static int freeList;
 
     /** Initializes the class. */
     function void init()
@@ -43,14 +43,46 @@ class Memory {
      *  a reference to its base address. */
     function int alloc(int size)
     {
-        var int block;
-        let block = free;
-        let free = free + block;
-        return block;
+        var int block_size;
+        var int next_block;
+        var int newBlock_base;
+
+        let next_block = freeList;
+        let block_size = Memory.peek(next_block + 1);
+
+        while (block_size < size + 2)
+        {
+            let next_block = Memory.peek(next_block);
+            if (next_block = 0)
+            {
+                return null;
+            }
+            let block_size = Memory.peek(next_block + 1);
+        }
+        let newBlock_base = block_size - (size + 2);
+        do Memory.poke(next_block + 1, newBlock_base);
+        do Memory.poke(newBlock_base, 0);
+        do Memory.poke(newBlock_base + 1, size + 2);
+        return newBlock_base + 2;
+
+
     }
 
     /** De-allocates the given object (cast as an array) by making
      *  it available for future allocations. */
-    function void deAlloc(Array o) {
+    function void deAlloc(Array o)
+    {
+        
+        var int block;
+        var int next_block;
+
+        let next_block = freeList;
+        let block = o - 2;
+        while (~(Memory.peek(next_block) = 0))
+        {
+            let next_block = Memory.peek(next_block);
+        }
+        do Memory.poke(next_block, block);
+        return;
     }    
 }
