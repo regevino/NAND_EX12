@@ -33,7 +33,7 @@ class Sys {
     {
         var int delayFactor, i;
         let i = 0;
-        let delayFactor = 5000;//TODO CHECK IF NEED TO CHANGE
+        let delayFactor = 3600;
         while(i < delayFactor*duration){}
         return;
     }
