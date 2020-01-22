@@ -109,41 +109,22 @@ class Keyboard {
      */
     function int readInt(String message)
     {
-        var int i, sum;
-        var String s;
+        var int i, res;
+        var String s, subS;
         var int c;
         var int is_negative;
         let s = Keyboard.readLine(message);
         let i = 0;
-        let sum = 0;
+        let res = 0;
         let is_negative = 0;
-        if (s.charAt(0) = 45)
-        {
-            let is_negative = 1;
-            let i = 1;
-        }
+        let subS = String.new(s.length());
         while(i < s.length())
         {
-            let c = s.charAt(i);
-            if (c > 47 | c < 58)
-            {
-                let sum = sum + c - 48;
-                let sum = sum*10;
-            }
-            else
-            {
-                if (is_negative = 1)
-                {
-                    return -sum;
-                }
-                return sum;
-            }
+            let subS = subS.appendChar(s.charAt(i));
             let i = i + 1;
         }
-        if (is_negative = 1)
-        {
-            return -sum;
-        }
-        return sum;
+        let res = subS.intValue();
+        do subS.dispose();
+        return res;
     }
 }
