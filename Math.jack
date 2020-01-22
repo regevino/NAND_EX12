@@ -20,7 +20,9 @@ class Math{
         let twoToThe[12] = 4096;
         let twoToThe[13] = 8192;
         let twoToThe[14] = 16384;
-        let twoToThe[15] = 32768;
+        // let twoToThe[15] = 32768;
+
+        return;
     }
 
     function int multiply(int x, int y)
@@ -28,27 +30,30 @@ class Math{
         var int sum;
         var int i;
         var int shifted_x;
+        var int nth_bit;
         // var int n;
 
         let shifted_x = x;
         let sum = 0;
         let i = 0;
-        while(i < 16)
+        while(i < 15)
         {
-            if(is_nth_bit(y) == 1)
+            let nth_bit = Math.is_nth_bit(y, i);
+            if(nth_bit = 1)
             {
-                sum = sum + shifted_x;
+                let sum = sum + shifted_x;
             }
-            shifted_x = shifted_x + shifted_x;
+            let shifted_x = shifted_x + shifted_x;
+            let i = i + 1;
         }
         return sum;
     }
 
     function int is_nth_bit(int a, int n)
     {
-        var result;
+        var int result;
         let result = a & twoToThe[n];
-        if(result > 0)
+        if(~(result = 0))
         {
             let result = 1;
         }
@@ -59,15 +64,31 @@ class Math{
     {
         var int q;
 
+        if (y < 0)
+        {
+            return -(x/(-y));
+        }
+        if (x < 0)
+        {
+            return -((-x)/y);
+        }
+
         if (y > x)
         {
             return 0;
         }
-        let q = divide(x, y+y);
-        if (x)
+        let q = x / (y+y);
+        if ((x - ((q+q)*y)) < y)
+        {
+            return q+q;
+        }
+        else
+        {
+            return q+q+1;  
+        }
     }
 
-    function int sqrt(int a)
+    function int sqrt(int x)
     {
         var int low;
         var int high;
