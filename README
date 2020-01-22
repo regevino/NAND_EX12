@@ -1,0 +1,26 @@
+avih,regevino
+
+===============================================================================
+Avinoam Hershler, ID 208926964, avinoam.hershler@mail.huji.ac.il
+Dan Regev, ID 208272518, dan.regev@mail.huji.ac.il
+===============================================================================
+
+                           Project 12 - a Hack Operating System
+                           -------------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+Array.jack - A class that compiles jack files.
+Keyboard.jack - a class representing a stream of tokens parsed from a .jack file and a class representing a jack token.
+Math.jack - a class that parses a tokenized jack input into a parse tree.
+Memory.jack - A class that handles the parsing and compilation of .jack files.
+Output.jack - Shell script to wrap our JackAnalyzer.py script.
+Screen.jack - Make script to ensure users have execute permissions for VMtranslator.
+String.jack - 
+Sys.jack - 
+
+Remarks
+-------
+

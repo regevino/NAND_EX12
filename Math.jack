@@ -95,11 +95,11 @@ class Math{
         var int med;
 
         let low = 0;
-        let high = 181;
+        let high = 182;
 
-        while (low < high)
+        while (low < (high - 1))
         {
-            let med = (low + high) / 2;
+            let med = ((low + high) / 2) + 1;
             if( (med*med) > x)
             {
                 let high = med - 1;
