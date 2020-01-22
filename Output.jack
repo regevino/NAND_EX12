@@ -24,7 +24,8 @@ class Output {
     }
 
     // Initializes the character map array
-    function void initMap() {
+    function void initMap()
+    {
         var int i;
     
         let charMaps = Array.new(127);
@@ -137,15 +138,16 @@ class Output {
         do Output.create(125,7,12,12,12,56,12,12,12,7,0,0);    // }
         do Output.create(126,38,45,25,0,0,0,0,0,0,0,0);        // ~
 
-	return;
+	    return;
     }
 
     // Creates the character map array of the given character index, using the given values.
     function void create(int index, int a, int b, int c, int d, int e,
-                         int f, int g, int h, int i, int j, int k) {
-	var Array map;
+                         int f, int g, int h, int i, int j, int k)
+    {
+	    var Array map;
 
-	let map = Array.new(11);
+	    let map = Array.new(11);
         let charMaps[index] = map;
 
         let map[0] = a;

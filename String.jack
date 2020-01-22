@@ -11,54 +11,121 @@
  * string-oriented operations.
  */
 class String {
+    field Array str;
+    field int _length;
 
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
-    constructor String new(int maxLength) {
+    constructor String new(int maxLength)
+    {
+        let str = Array.new(maxLength);
+        let _length = 0;
+        return this;
     }
 
     /** Disposes this string. */
-    method void dispose() {
+    method void dispose()
+    {
+        do str.dispose();
+        return;
     }
 
     /** Returns the current length of this string. */
-    method int length() {
+    method int length()
+    {
+        return _length;
     }
 
     /** Returns the character at the j-th location of this string. */
-    method char charAt(int j) {
+    method char charAt(int j)
+    {
+        var char c;
+        let c = str[j];//TODO CHECK BOUNDARY?
+        return c;
     }
 
     /** Sets the character at the j-th location of this string to c. */
-    method void setCharAt(int j, char c) {
+    method void setCharAt(int j, char c)
+    {
+        let str[j] = c;
+        return;
     }
 
     /** Appends c to this string's end and returns this string. */
-    method String appendChar(char c) {
+    method String appendChar(char c)
+    {
+        let str[_length] = c;
+        let _length = _length + 1;
+        return this;
     }
 
     /** Erases the last character from this string. */
-    method void eraseLastChar() {
+    method void eraseLastChar()
+    {
+        let str[_length] = 0;
+        let _length = _length - 1;
+        return;
     }
 
     /** Returns the integer value of this string, 
      *  until a non-digit character is detected. */
-    method int intValue() {
+    method int intValue()
+    {
+        var int n, i, d;
+
+        let n = 0;
+        let i = 0;
+        while(i < _length)
+        {
+            let d = str[i] - 48;
+            let n = n*10 + d;
+        }
+        return n;
     }
 
     /** Sets this string to hold a representation of the given value. */
-    method void setInt(int val) {
+    method void setInt(int val)
+    {
+        var int quotient, temp, radix;
+        var int c;
+        let quotient = Math.divide(val, 10);
+        let temp = Math.multiply(quotient, 10);
+        let radix = val - temp;
+        let c = radix + 48;
+        if(val < 10)
+        {
+            do String.appendChar(c);
+            return;
+        }
+        else
+        {
+            do String.setInt(temp);
+            do String.appendChar(c);
+            return;
+        }
     }
 
     /** Returns the new line character. */
-    function char newLine() {
+    function char newLine()
+    {
+        var int newLineFeed;
+        let newLineFeed = 128;
+        return newLineFeed;
     }
 
     /** Returns the backspace character. */
-    function char backSpace() {
+    function char backSpace()
+    {
+        var int backSpace;
+        let backSpace = 129;
+        return backSpace;
     }
 
     /** Returns the double quote (") character. */
-    function char doubleQuote() {
+    function char doubleQuote()
+    {
+        var int doubleQuote;
+        let doubleQuote = 34;
+        return doubleQuote;
     }
 }
