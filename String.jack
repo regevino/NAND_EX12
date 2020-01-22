@@ -96,6 +96,10 @@ class String {
     {
         var int quotient, temp, radix;
         var int c;
+
+        do this.dispose();
+        this = String.new(6);
+
         let quotient = Math.divide(val, 10);
         let temp = Math.multiply(quotient, 10);
         let radix = val - temp;
