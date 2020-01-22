@@ -16,8 +16,8 @@ class Sys {
         do Memory.init();
         do Output.init();
         do Screen.init();
-        do String.init();
-        do Main.init();
+        do Main.main();
+        do Sys.halt();
         return;
     }
 
@@ -33,7 +33,7 @@ class Sys {
     {
         var int delayFactor, i;
         let i = 0;
-        let delayFactor = 3600;
+        let delayFactor = 8000;
         while(i < delayFactor*duration){}
         return;
     }

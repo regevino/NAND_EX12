@@ -18,7 +18,15 @@ class String {
      *  and initial length of 0. */
     constructor String new(int maxLength)
     {
-        let str = Array.new(maxLength);
+        if(maxLength = 0)
+        {
+            let str = Array.new(1);
+        }
+        else
+        {
+            let str = Array.new(maxLength);
+        }
+        
         let _length = 0;
         return this;
     }
