@@ -12,6 +12,7 @@
  */
 class String {
     field Array str;
+    field int _maxLength;
     field int _length;
 
     /** constructs a new empty string with a maximum length of maxLength
@@ -26,7 +27,7 @@ class String {
         {
             let str = Array.new(maxLength);
         }
-        
+        let _maxLength = maxLength;
         let _length = 0;
         return this;
     }
@@ -63,7 +64,10 @@ class String {
     method String appendChar(char c)
     {
         let str[_length] = c;
-        let _length = _length + 1;
+        if(~(_length = _maxLength))
+        {
+            let _length = _length + 1;
+        }
         return this;
     }
 
@@ -94,11 +98,17 @@ class String {
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val)
     {
+        do str.dispose();
+        let str = Array.new(6);
+
+        do helper(val);
+        return;
+    }
+
+    method void helper(int val)
+    {
         var int quotient, temp, radix;
         var int c;
-
-        do this.dispose();
-        this = String.new(6);
 
         let quotient = Math.divide(val, 10);
         let temp = Math.multiply(quotient, 10);
@@ -111,7 +121,7 @@ class String {
         }
         else
         {
-            do setInt(temp);
+            do helper(quotient);
             do appendChar(c);
             return;
         }
