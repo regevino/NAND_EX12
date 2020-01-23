@@ -11,33 +11,249 @@
  */
 class Screen {
 
+    static int offset;
+    static Array twoToThe;
+    static boolean color;
+
     /** Initializes the Screen. */
     function void init() {
+
+        let offset = 16384;
+        let color = true;
+
+        let twoToThe = Array.new(16);
+        let twoToThe[0] = 1;
+        let twoToThe[1] = 2;
+        let twoToThe[2] = 4;
+        let twoToThe[3] = 8;
+        let twoToThe[4] = 16;
+        let twoToThe[5] = 32;
+        let twoToThe[6] = 64;
+        let twoToThe[7] = 128;
+        let twoToThe[8] = 256;
+        let twoToThe[9] = 512;
+        let twoToThe[10] = 1024;
+        let twoToThe[11] = 2048;
+        let twoToThe[12] = 4096;
+        let twoToThe[13] = 8192;
+        let twoToThe[14] = 16384;
+        let twoToThe[15] = -32767 - 1;
+
+        return;
     }
 
     /** Erases the entire screen. */
     function void clearScreen() {
+        var int i;
+        let i = offset;
+        while (i < 24545)
+        {
+            do Memory.poke(i, 0);
+            let i = i + 1;
+        }
+        return;
     }
 
     /** Sets the current color, to be used for all subsequent drawXXX commands.
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
+        let color = b;
+        return;
     }
 
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
+
+        var int address;
+        var int word;
+        var int bit;
+
+        let address = offset + Screen.times_two_to_the_power_of(y,5) + (x/16);
+
+        let word = Memory.peek(address);
+
+        let bit = x & 15;
+        if (color)
+        {
+            let word = word | (twoToThe[bit]);
+        }
+        else
+        {
+            let word = word & (~twoToThe[bit]);
+        }
+        do Memory.poke(address, word);
+        return;
+
+    }
+    function int times_two_to_the_power_of(int a, int b)
+    {
+        while (b > 0)
+        {
+            let a = a + a;
+            let b = b - 1;
+        }
+        return a;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
+        var int a, b, diff, dx, dy, row_offset, column_offset, word, last_bit, mask, first_bit, address;
+        let a = 0;
+        let b = 0;
+        let diff = 0;
+
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+
+        if (dy = 0)
+        {
+            let row_offset = offset + Screen.times_two_to_the_power_of(y1, 5);
+            while ((x2) > (x1+ 16 - (x1&15)))
+            {
+                let column_offset = x2 / 16;
+                let address = row_offset + column_offset;
+                let word = Memory.peek(address);
+                let last_bit = x2 & 15;
+                let mask = 0;
+                let x2 = x2 - (last_bit + 1);
+                if (last_bit = 15)
+                {
+                    let mask = -1;
+                }
+                else
+                {
+                    while (last_bit > -1)
+                    {
+                        let mask = twoToThe[last_bit] | mask;
+                        let last_bit = last_bit - 1;
+                    }
+                }
+                if (color)
+                {
+                    let word = word | mask;
+                }
+                else
+                {
+                    let word = word & (~mask);
+                }
+                do Memory.poke(address, word);
+            }
+            let column_offset = x1 / 16;
+            let address = row_offset + column_offset;
+            let word = Memory.peek(address);
+            let first_bit = x1 & 15;
+            let mask = 0;
+            if (first_bit = 0)
+            {
+                let mask = -1;
+            }
+            else
+            {
+                while (first_bit < 16)
+                {
+                    let mask = twoToThe[first_bit] | mask;
+                    let first_bit = first_bit + 1;
+                }
+            }
+            if (color)
+            {
+                let word = word | mask;
+            }
+            else
+            {
+                let word = word & (~mask);
+            }
+            do Memory.poke(address, word);
+            return;
+        }
+
+        if ((dy > -1) & (dx > -1))
+        {
+            while((a < (dx + 1)) & (b < (dy + 1)))
+            {
+                do Screen.drawPixel(x1 + a, y1 + b);
+                if(diff < 0)
+                {
+                    let a = a + 1;
+                    let diff = diff + dy;
+                }
+                else
+                {
+                    let b = b + 1;
+                    let diff = diff - dx;
+                }
+            }
+            return;
+        }
+        else
+        {
+            if ((dy < 0) & (dx > -1))
+            {
+                while((a < (dx + 1)) & (b > (dy - 1)))
+                {
+                    do Screen.drawPixel(x1 + a, y1 + b);
+                    if(diff < 0)
+                    {
+                        let a = a + 1;
+                        let diff = diff - dy;
+                    }
+                    else
+                    {
+                        let b = b - 1;
+                        let diff = diff - dx;
+                    }
+                }
+                return;
+            }
+            if ((dx < 0) & (dy > -1))
+            {
+                while((a > (dx - 1)) & (b < (dy + 1)))
+                {
+                    do Screen.drawPixel(x1 + a, y1 + b);
+                    if(diff < 0)
+                    {
+                        let a = a - 1;
+                        let diff = diff + dy;
+                    }
+                    else
+                    {
+                        let b = b + 1;
+                        let diff = diff + dx;
+                    }
+                }
+                return;
+            }
+            do Screen.drawLine(x2, y2, x1, y1);
+        
+            
+        }
+        return;
     }
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
-    function void drawRectangle(int x1, int y1, int x2, int y2) {
+    function void drawRectangle(int x1, int y1, int x2, int y2)
+    {
+        while(y1 < (y2 + 1))
+        {
+            do Screen.drawLine(x1, y1, x2, y1);
+            let y1 = y1 + 1;
+        }
+        return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
+        var int dy, rSquare, dySquare, subRoot;
+        let dy = -r;
+        let rSquare = r*r;
+        while(dy < (r + 1))
+        {
+            let dySquare = dy*dy;
+            let subRoot = Math.sqrt((rSquare - dySquare));
+            do Screen.drawLine(x - subRoot, y + dy, x + subRoot, y + dy);
+            let dy = dy + 1;
+        }
+        return;
     }
 }
