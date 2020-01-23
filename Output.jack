@@ -216,7 +216,7 @@ class Output {
             let should_shift = 1;
             let column = cursorX - 1;
         }
-        
+
 
         let row_base = screen + (352 * cursorY);
 
